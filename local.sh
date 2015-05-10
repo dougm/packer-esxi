@@ -5,8 +5,8 @@
 # vagrant uses ethernet0.generatedAddress to lookup the VM ip in
 # vmnet-dhcpd-vmnet8.leases, reconfigure here if needed.
 
-vnic0_mac=$(esxcli --formatter csv network nic list | grep vmnic0 | awk -F, '{print $5}')
-vmk0_mac=$(esxcli --formatter csv network ip interface list | grep vmk0 | awk -F, '{print $2}')
+vnic0_mac=$(esxcli --formatter keyvalue network nic list | grep -i MACAddress | awk -F= '{print $2}')
+vmk0_mac=$(esxcli --formatter keyvalue network ip interface list | grep -i MACAddress | awk -F= '{print $2}')
 
 if [ "$vnic0_mac" != "$vmk0_mac" ] ; then
   esxcli network ip interface remove -i vmk0
